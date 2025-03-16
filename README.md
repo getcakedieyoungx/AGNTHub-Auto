@@ -1,8 +1,5 @@
 # AGNT.Hub Daily Rewards Claim Botu
 
-<p align="center">
-  <img src="screenshots/bot-screenshot.png" alt="AGNT.Hub Daily Claim Bot" width="700">
-</p>
 
 Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olarak 24 saatte bir claim etmek için tasarlanmıştır. Linux sunucularında çalışacak şekilde optimize edilmiştir.
 
@@ -66,8 +63,6 @@ Bot başladıktan sonra:
 3. **Sürekli Çalışma**: Botun sürekli çalışması için terminal penceresini açık tutmanız gerekir. Alternatif olarak `nohup` veya `screen` gibi araçlar kullanabilirsiniz:
 
 ```bash
-# nohup ile arka planda çalıştırma
-nohup npm start > output.log 2>&1 &
 
 # veya screen ile
 screen -S agnt-bot
@@ -77,6 +72,16 @@ node bot.js
 
 </p>
 
-## Lisans
+## 🌟 Contributing
 
-MIT
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Join tg, I will post bots there too.
+[Telegram](https://t.me/getcakedieyoungx)
+
+### For donations:
+EVM:
+0xE065339713A8D9BF897d595ED89150da521a7d09
+
+SOLANA:
+CcBPMkpMbZ4TWE8HeUWyv9CkEVqPLJ5gYe163g5SR4Vf
