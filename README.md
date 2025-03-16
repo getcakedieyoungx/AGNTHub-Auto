@@ -1,14 +1,19 @@
 # AGNT.Hub Daily Rewards Claim Botu
 
+<p align="center">
+  <img src="screenshots/bot-screenshot.png" alt="AGNT.Hub Daily Claim Bot" width="700">
+</p>
+
 Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olarak 24 saatte bir claim etmek için tasarlanmıştır. Linux sunucularında çalışacak şekilde optimize edilmiştir.
 
 ## Özellikler
 
-- 24 saatte bir otomatik claim işlemi
-- Detaylı log kaydı
-- Cookie tabanlı kimlik doğrulama
-- Hata durumunda otomatik yeniden deneme
-- Sonraki claim zamanı bildirimi
+- 🎁 24 saatte bir otomatik claim işlemi
+- 📊 Renkli ve detaylı log kaydı
+- 🔐 Cookie tabanlı kimlik doğrulama
+- 🔄 Hata durumunda otomatik yeniden deneme
+- ⏰ Sonraki claim zamanı bildirimi
+- 🎨 Güzel ASCII sanatı logo
 
 ## Kurulum
 
@@ -16,8 +21,8 @@ Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olara
 
 ```bash
 # Repoyu klonla
-git clone https://github.com/getcakedieyoungx/AGNTHub-Auto.git
-cd AGNTHub-Auto
+git clone https://github.com/getcakedieyoungx/agnt-hub-daily-claim-bot.git
+cd agnt-hub-daily-claim-bot
 
 # Bağımlılıkları yükle
 npm install
@@ -51,7 +56,7 @@ npm start
 Bot başladıktan sonra:
 - İlk claim işlemini hemen gerçekleştirecek
 - Sonraki claim işlemini 24 saat sonra otomatik olarak yapacak
-- Tüm işlemleri konsola ve `claim_log.txt` dosyasına kaydedecek
+- Tüm işlemleri renkli konsola ve `claim_log.txt` dosyasına kaydedecek
 
 ## Önemli Notlar
 
@@ -70,6 +75,12 @@ screen -S agnt-bot
 npm start
 # Ctrl+A, D ile screen'den ayrılabilirsiniz
 ```
+
+## Ekran Görüntüleri
+
+<p align="center">
+  <img src="screenshots/claim-success.png" alt="Başarılı Claim" width="600">
+</p>
 
 ## Lisans
 
