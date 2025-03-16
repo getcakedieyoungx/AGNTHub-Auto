@@ -26,7 +26,7 @@ const displayLogo = () => {
     console.log('\n');
     console.log(chalk.yellow('=================================================='));
     console.log(chalk.green('  Developed by: ') + chalk.white('getcakedieyoungx'));
-    console.log(chalk.green('  Version: ') + chalk.white('1.0.0'));
+    console.log(chalk.green('  TG: https://t.me/getcakedieyoungx ') + chalk.white('github.com/getcakedieyoungx'));
     console.log(chalk.yellow('==================================================\n'));
 }
 
