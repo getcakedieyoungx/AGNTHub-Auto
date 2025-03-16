@@ -13,7 +13,6 @@ Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olara
 - 🔐 Cookie tabanlı kimlik doğrulama
 - 🔄 Hata durumunda otomatik yeniden deneme
 - ⏰ Sonraki claim zamanı bildirimi
-- 🎨 Güzel ASCII sanatı logo
 
 ## Kurulum
 
@@ -21,8 +20,8 @@ Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olara
 
 ```bash
 # Repoyu klonla
-git clone https://github.com/getcakedieyoungx/agnt-hub-daily-claim-bot.git
-cd agnt-hub-daily-claim-bot
+git clone https://github.com/getcakedieyoungx/AGNTHub-Auto.git
+cd AGNTHub-Auto
 
 # Bağımlılıkları yükle
 npm install
@@ -50,7 +49,7 @@ echo "kopyaladığınız_cookie_değeri" > token.txt
 
 ```bash
 # Botu başlat
-npm start
+node bot.js
 ```
 
 Bot başladıktan sonra:
@@ -72,14 +71,10 @@ nohup npm start > output.log 2>&1 &
 
 # veya screen ile
 screen -S agnt-bot
-npm start
+node bot.js
 # Ctrl+A, D ile screen'den ayrılabilirsiniz
 ```
 
-## Ekran Görüntüleri
-
-<p align="center">
-  <img src="screenshots/claim-success.png" alt="Başarılı Claim" width="600">
 </p>
 
 ## Lisans
