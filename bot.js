@@ -13,7 +13,7 @@ const LOG_FILE = path.join(__dirname, 'claim_log.txt');
 // ASCII Logo
 const displayLogo = () => {
     console.log('\n');
-    console.log(chalk.cyan(figlet.textSync('AGNT.Hub', {
+    console.log(chalk.cyan(figlet.textSync('GETCAKE DIEYOUNG', {
         font: 'ANSI Shadow',
         horizontalLayout: 'default',
         verticalLayout: 'default'
