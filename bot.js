@@ -1,11 +1,11 @@
-// AGNT.Hub Daily Rewards Claim Botu
+// AGNT.Hub Daily Rewards Claim Bot
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const chalk = require('chalk');
 const figlet = require('figlet');
 
-// Sabit değişkenler
+// Constant variables
 const API_BASE_URL = "https://hub-api.agnthub.ai/api";
 const TOKEN_FILE = path.join(__dirname, 'token.txt');
 const LOG_FILE = path.join(__dirname, 'claim_log.txt');
@@ -30,7 +30,7 @@ const displayLogo = () => {
     console.log(chalk.yellow('==================================================\n'));
 }
 
-// Renkli log fonksiyonları
+// Colored log functions
 const logTypes = {
     INFO: {color: chalk.blue, prefix: '📘 INFO'},
     SUCCESS: {color: chalk.green, prefix: '✅ SUCCESS'},
@@ -41,7 +41,7 @@ const logTypes = {
     NETWORK: {color: chalk.hex('#FFA500'), prefix: '🌐 NETWORK'}
 };
 
-// Log fonksiyonu
+// Log function
 function logMessage(type, message) {
     const timestamp = new Date().toISOString();
     const logType = logTypes[type] || logTypes.INFO;
@@ -52,41 +52,41 @@ function logMessage(type, message) {
     fs.appendFileSync(LOG_FILE, plainMessage);
 }
 
-// Görsel ayırıcı
+// Visual separator
 function displaySeparator() {
     console.log(chalk.yellow('--------------------------------------------------'));
 }
 
-// Token dosyasından cookie bilgilerini oku
+// Read cookie information from token file
 function readTokenFromFile() {
     try {
         if (fs.existsSync(TOKEN_FILE)) {
             return fs.readFileSync(TOKEN_FILE, 'utf8').trim();
         } else {
-            logMessage('ERROR', "token.txt dosyası bulunamadı!");
+            logMessage('ERROR', "token.txt file not found!");
             return null;
         }
     } catch (error) {
-        logMessage('ERROR', `Token okuma hatası: ${error.message}`);
+        logMessage('ERROR', `Token reading error: ${error.message}`);
         return null;
     }
 }
 
-// Daily reward claim işlemi
+// Daily reward claim process
 async function claimDailyReward() {
     try {
         displaySeparator();
         const cookieHeader = readTokenFromFile();
         
         if (!cookieHeader) {
-            logMessage('ERROR', "Cookie bilgisi olmadan işlem yapılamaz.");
+            logMessage('ERROR', "Cannot proceed without cookie information.");
             return;
         }
         
-        logMessage('SYSTEM', "Daily reward claim işlemi başlatılıyor...");
+        logMessage('SYSTEM', "Starting daily reward claim process...");
         
-        // Önce daily rewards durumunu kontrol et
-        logMessage('NETWORK', "Daily rewards durumu kontrol ediliyor...");
+        // First, check the daily rewards status
+        logMessage('NETWORK', "Checking daily rewards status...");
         const checkResponse = await axios.get(`${API_BASE_URL}/daily-rewards`, {
             headers: {
                 'Cookie': cookieHeader,
@@ -95,11 +95,11 @@ async function claimDailyReward() {
         });
         
         const rewardStatus = checkResponse.data;
-        logMessage('INFO', `Mevcut ödül durumu: Gün ${chalk.bold(rewardStatus.day)}, Miktar: ${chalk.bold(rewardStatus.rewardAmount)}, Alınabilir: ${rewardStatus.todaysRewardAvailable ? chalk.green('EVET') : chalk.red('HAYIR')}`);
+        logMessage('INFO', `Current reward status: Day ${chalk.bold(rewardStatus.day)}, Amount: ${chalk.bold(rewardStatus.rewardAmount)}, Claimable: ${rewardStatus.todaysRewardAvailable ? chalk.green('YES') : chalk.red('NO')}`);
         
-        // Eğer bugünkü ödül alınabilir durumdaysa claim et
+        // If today's reward is available, claim it
         if (rewardStatus.todaysRewardAvailable) {
-            logMessage('NETWORK', "Claim isteği gönderiliyor...");
+            logMessage('NETWORK', "Sending claim request...");
             const claimResponse = await axios.post(`${API_BASE_URL}/daily-rewards/claim`, {}, {
                 headers: {
                     'Cookie': cookieHeader,
@@ -108,10 +108,10 @@ async function claimDailyReward() {
             });
             
             const claimResult = claimResponse.data;
-            logMessage('CLAIM', `${chalk.bold(claimResult.amount)} puan başarıyla kazanıldı! 🎉`);
+            logMessage('CLAIM', `${chalk.bold(claimResult.amount)} points successfully earned! 🎉`);
             
-            // Kullanıcı bilgilerini güncelle
-            logMessage('NETWORK', "Kullanıcı bilgileri güncelleniyor...");
+            // Update user information
+            logMessage('NETWORK', "Updating user information...");
             const userResponse = await axios.get(`${API_BASE_URL}/users`, {
                 headers: {
                     'Cookie': cookieHeader,
@@ -120,50 +120,50 @@ async function claimDailyReward() {
             });
             
             const userData = userResponse.data;
-            logMessage('SUCCESS', `Güncel toplam puan: ${chalk.bold(userData.points)}`);
+            logMessage('SUCCESS', `Current total points: ${chalk.bold(userData.points)}`);
             
-            // Sonraki claim zamanını hesapla ve göster
+            // Calculate and show the next claim time
             const nextClaimTime = new Date();
             nextClaimTime.setHours(nextClaimTime.getHours() + 24);
-            logMessage('INFO', `Sonraki claim: ${chalk.bold(nextClaimTime.toLocaleString())} (24 saat sonra)`);
+            logMessage('INFO', `Next claim: ${chalk.bold(nextClaimTime.toLocaleString())} (in 24 hours)`);
             
             return {
                 success: true,
-                message: `Daily reward başarıyla alındı. ${claimResult.amount} puan kazanıldı!`,
+                message: `Daily reward successfully claimed. ${claimResult.amount} points earned!`,
                 totalPoints: userData.points,
                 nextClaim: nextClaimTime
             };
         } else {
-            logMessage('WARNING', "Bugün için ödül zaten alınmış veya henüz mevcut değil.");
-            logMessage('INFO', `Sonraki ödül: Gün ${chalk.bold(rewardStatus.nextDay)}, Miktar: ${chalk.bold(rewardStatus.nextDayRewardAmount)}`);
+            logMessage('WARNING', "Reward for today already claimed or not yet available.");
+            logMessage('INFO', `Next reward: Day ${chalk.bold(rewardStatus.nextDay)}, Amount: ${chalk.bold(rewardStatus.nextDayRewardAmount)}`);
             
-            // Sonraki claim zamanını hesapla ve göster
+            // Calculate and show the next claim time
             const nextClaimTime = new Date();
             nextClaimTime.setHours(nextClaimTime.getHours() + 24);
-            logMessage('INFO', `Sonraki claim denemesi: ${chalk.bold(nextClaimTime.toLocaleString())} (24 saat sonra)`);
+            logMessage('INFO', `Next claim attempt: ${chalk.bold(nextClaimTime.toLocaleString())} (in 24 hours)`);
             
             return {
                 success: false,
-                message: "Bugün için ödül zaten alınmış veya henüz mevcut değil.",
+                message: "Reward for today already claimed or not yet available.",
                 nextDay: rewardStatus.nextDay,
                 nextReward: rewardStatus.nextDayRewardAmount,
                 nextClaim: nextClaimTime
             };
         }
     } catch (error) {
-        logMessage('ERROR', `Claim işlemi sırasında hata oluştu: ${error.message}`);
+        logMessage('ERROR', `Error occurred during claim process: ${error.message}`);
         if (error.response) {
-            logMessage('ERROR', `Hata detayı: ${JSON.stringify(error.response.data)}`);
+            logMessage('ERROR', `Error detail: ${JSON.stringify(error.response.data)}`);
         }
         
-        // Hata durumunda da sonraki claim zamanını göster
+        // Even in case of error, show the next claim time
         const nextClaimTime = new Date();
         nextClaimTime.setHours(nextClaimTime.getHours() + 24);
-        logMessage('INFO', `Sonraki claim denemesi: ${chalk.bold(nextClaimTime.toLocaleString())} (24 saat sonra)`);
+        logMessage('INFO', `Next claim attempt: ${chalk.bold(nextClaimTime.toLocaleString())} (in 24 hours)`);
         
         return {
             success: false,
-            message: "Hata oluştu: " + error.message,
+            message: "Error occurred: " + error.message,
             nextClaim: nextClaimTime
         };
     } finally {
@@ -171,25 +171,25 @@ async function claimDailyReward() {
     }
 }
 
-// 24 saatte bir çalıştırma fonksiyonu
+// Function to run every 24 hours
 async function startDailyClaimSchedule() {
-    // İlk çalıştırma
+    // First run
     await claimDailyReward();
     
-    // 24 saatte bir çalıştır (milisaniye cinsinden)
+    // Run every 24 hours (in milliseconds)
     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
     
     setInterval(async () => {
-        logMessage('SYSTEM', "24 saat doldu, yeni claim işlemi başlatılıyor...");
+        logMessage('SYSTEM', "24 hours passed, starting new claim process...");
         await claimDailyReward();
     }, TWENTY_FOUR_HOURS);
     
-    logMessage('SYSTEM', "Bot 24 saatte bir çalışacak şekilde ayarlandı");
+    logMessage('SYSTEM', "Bot is set to run every 24 hours");
 }
 
-// Botu başlat
+// Start the bot
 displayLogo();
-logMessage('SYSTEM', "AGNT.Hub Daily Rewards Claim Botu başlatıldı!");
+logMessage('SYSTEM', "AGNT.Hub Daily Rewards Claim Bot started!");
 startDailyClaimSchedule().catch(error => {
-    logMessage('ERROR', `Bot başlatma hatası: ${error.message}`);
+    logMessage('ERROR', `Bot starting error: ${error.message}`);
 });
