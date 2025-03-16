@@ -16,7 +16,7 @@ Bu bot, AGNT.Hub platformunda günlük ödülleri (daily rewards) otomatik olara
 
 ```bash
 # Repoyu klonla
-git clone [https://github.com/kullaniciadi/agnt-hub-daily-claim-bot.git](https://github.com/getcakedieyoungx/AGNTHub-Auto.git
+git clone https://github.com/getcakedieyoungx/AGNTHub-Auto.git
 cd AGNTHub-Auto
 
 # Bağımlılıkları yükle
