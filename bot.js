@@ -100,7 +100,7 @@ async function claimDailyReward() {
         // Eğer bugünkü ödül alınabilir durumdaysa claim et
         if (rewardStatus.todaysRewardAvailable) {
             logMessage('NETWORK', "Claim isteği gönderiliyor...");
-            const claimResponse = await axios.post(`${API_BASE_URL}/daily-rewards/claim`, "", {
+            const claimResponse = await axios.post(`${API_BASE_URL}/daily-rewards/claim`, {}, {
                 headers: {
                     'Cookie': cookieHeader,
                     'Content-Type': 'application/json'
